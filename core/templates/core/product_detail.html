@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - فروشگاه نایک{% endblock %}
+
+{% block content %}
+<div class="product-detail-page container my-5">
+    
+    <!-- Container for success/error messages -->
+    <div id="message-container" class="mb-4"></div>
+
+    <section class="product-info-section row">
+        <!-- Product Image Gallery -->
+        <div class="col-md-6 product-gallery">
+            <img src="{{ product.image.url }}" class="img-fluid rounded main-image" alt="{{ product.name }}">
+        </div>
+
+        <!-- Product Details and Actions -->
+        <div class="col-md-6 product-data">
+            <h1>{{ product.name }}</h1>
+            <p class="category-link">دسته بندی: <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></p>
+            <h3 class="price">{{ product.price|floatformat:0 }} تومان</h3>
+            <hr>
+            <h4>توضیحات محصول</h4>
+            <p class="description">{{ product.description|linebreaks }}</p>
+            
+            <div class="action-buttons mt-4 d-flex align-items-center">
+                <!-- Add to Cart Form -->
+                <form method="post" action="{% url 'cart:add_to_cart' product.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-lg add-to-cart-btn">افزودن به سبد خرید</button>
+                </form>
+
+                <!-- === تغییر اصلی اینجاست: تبدیل لینک به فرم === -->
+                <form action="{% url 'core:toggle_wishlist' product.id %}" method="post" class="wishlist-form d-inline me-3">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link p-0" style="font-size: 2.2rem; text-decoration: none; vertical-align: middle;">
+                         <i class="fas fa-heart {% if product.id in wishlist_ids %}text-danger{% endif %}"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section mt-5">
+        {% include 'core/review.html' %}
+    </section>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- === تغییر اصلی اینجاست: به‌روزرسانی جاوا اسکریپت برای کار با فرم === -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const wishlistForm = document.querySelector('.wishlist-form');
+
+    if (wishlistForm) {
+        wishlistForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // جلوی ارسال عادی فرم و رفرش صفحه را می‌گیرد
+
+            const url = this.action;
+            const csrfToken = this.querySelector('[name=csrfmiddlewaretoken]').value;
+            const heartIcon = this.querySelector('.fa-heart');
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    // تغییر رنگ قلب
+                    heartIcon.classList.toggle('text-danger');
+
+                    // نمایش پیغام موفقیت
+                    const messageContainer = document.getElementById('message-container');
+                    if(messageContainer) {
+                        messageContainer.innerHTML = `<div class="alert alert-success text-center">${data.message}</div>`;
+                        // پاک کردن پیغام بعد از ۳ ثانیه
+                        setTimeout(() => messageContainer.innerHTML = '', 3000);
+                    }
+                } else {
+                    console.error('Error:', data.message);
+                }
+            })
+            .catch(error => console.error('Fetch Error:', error));
+        });
+    }
+});
+</script>
+{% endblock %}

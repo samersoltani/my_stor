@@ -1,0 +1,45 @@
+<section class="reviews-section" id="reviews">
+    <h1 class="heading">نظرات <span>مشتریان</span></h1>
+   
+<div class="review-container">
+    <h3>نظرات کاربران ({{ reviews.count }})</h3>
+    <hr>
+
+    {% if user.is_authenticated %}
+        <h4>نظر خود را ثبت کنید</h4>
+        <form action="{% url 'core:add_review' product.id %}" method="post" class="mb-4 review-form">
+            {% csrf_token %}
+            <!-- استفاده از as_p برای نمایش بهتر فرم -->
+            {{ review_form.as_p }}
+            <button type="submit" class="btn btn-primary mt-2">ثبت نظر</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">برای ثبت نظر وارد شوید.</a></p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Displaying Reviews -->
+    {% for review in reviews %}
+        {% include 'core/_single_review.html' with review=review %}
+    {% empty %}
+        <p>هنوز نظری برای این محصول ثبت نشده است. شما اولین نفر باشید!</p>
+    {% endfor %}
+</div>
+
+<!-- JavaScript to toggle reply forms -->
+<script>
+    function showReplyForm(reviewId) {
+        // ابتدا تمام فرم‌های پاسخ دیگر را مخفی کن
+        document.querySelectorAll('.reply-form-container').forEach(container => {
+            container.style.display = 'none';
+        });
+        
+        // فرم پاسخ مربوط به این نظر را نمایش بده
+        const formContainer = document.getElementById(`reply-form-container-${reviewId}`);
+        if (formContainer) {
+            formContainer.style.display = 'block';
+        }
+    }
+</script>
+</section>

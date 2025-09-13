@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="wishlist-page">
+    <div class="container">
+        <h1 class="wishlist-title">لیست علاقه‌مندی‌های من</h1>
+
+        <div id="message-container" class="mb-4"></div>
+
+        <div id="wishlist-container" data-product-list-url="{% url 'core:product_list' %}">
+            {% if wishlist_items %}
+                {% for item in wishlist_items %}
+                    <div class="product-card-wishlist" id="wishlist-item-{{ item.product.id }}">
+                        <a href="{{ item.product.get_absolute_url }}">
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        </a>
+                        <div class="flex-grow-1 product-info">
+                            <h5><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></h5>
+                            <p class="text-muted mb-2">{{ item.product.category.name }}</p>
+                            <h6 class="product-price">{{ item.product.price|floatformat:0 }} تومان</h6>
+                        </div>
+                        <div>
+                           <form action="{% url 'core:toggle_wishlist' item.product.id %}" method="post" class="like-form" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+</form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-wishlist" id="empty-wishlist-message">
+                    <p>لیست علاقه‌مندی‌های شما خالی است.</p>
+                    <a href="{% url 'core:product_list' %}" class="btn btn-primary">مشاهده محصولات</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{% url 'core:home' %}" class="btn btn-secondary">بازگشت به صفحه اصلی</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.like-form').forEach(form => {
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // جلوی رفرش شدن صفحه را می‌گیرد
+
+        const url = this.action;
+        const csrfToken = this.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // اگر عملیات موفقیت‌آمیز بود و محصول حذف شده بود
+            if (data.action === 'removed') {
+                
+                // === تغییر اصلی اینجاست ===
+                // این کد نزدیک‌ترین والد با کلاسِ 'product-card-wishlist' را پیدا و به طور کامل حذف می‌کند
+                this.closest('.product-card-wishlist').remove();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('یک مشکلی پیش آمد.');
+        });
+    });
+});
+</script>
+{% endblock extra_js %}

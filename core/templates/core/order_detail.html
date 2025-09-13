@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}جزئیات سفارش {{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light py-3">
+                    <h2 class="h4 mb-0">جزئیات سفارش شماره: {{ order.id }}</h2>
+                    <p class="text-muted small mb-0">ثبت شده در تاریخ: {{ order.created_at|date:"l, d F Y" }}</p>
+                </div>
+                <div class="card-body">
+                    <h5 class="mb-4">محصولات سفارش</h5>
+                    
+                    <ul class="list-group list-group-flush">
+                        {% for item in order.items.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <div class="d-flex align-items-center">
+                                <!-- 💡 تغییر اصلی: اضافه شدن یک div به دور تصویر 💡 -->
+                                <div class="order-item-image-wrapper me-3">
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-fluid rounded">
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">{{ item.product.name }}</h6>
+                                    <small class="text-muted">تعداد: {{ item.quantity }}</small>
+                                </div>
+                            </div>
+                            <span class="fw-bold">{{ item.get_cost|floatformat:0 }} تومان</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-end">
+                        <div class="text-end">
+                            <h5 class="mb-0">جمع کل: <span class="fw-bold text-success">{{ order.total_paid|floatformat:0 }} تومان</span></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center py-3">
+                    {% if not order.is_paid %}
+                        <a href="{% url 'core:pay_for_order' order_id=order.id %}" class="btn btn-success btn-lg">پرداخت آنلاین سفارش</a>
+                    {% endif %}
+                    <a href="{% url 'core:order_history' %}" class="btn btn-secondary">بازگشت به تاریخچه سفارش‌ها</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

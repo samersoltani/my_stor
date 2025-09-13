@@ -1,0 +1,21 @@
+{% load static %}
+<section class="categories" style="padding: 4rem 5%;">
+    <h1 class="heading" style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">
+        دسته‌بندی <span>محصولات</span>
+    </h1>
+
+    <div class="box-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)); gap: 1.5rem;">
+
+        {% for category in categories %}
+            <div class="box" style="text-align: center; border: 1px solid #ddd; border-radius: 0.5rem; padding: 2rem; background-color: #fff;">
+                {# اینجا باید برای هر دسته‌بندی یک عکس در نظر بگیرید. فعلا از یک عکس پیش‌فرض استفاده می‌کنیم. #}
+                <img src="{% static 'core/images/category-placeholder.png' %}" alt="{{ category.name }}" style="width: 80%; height: auto; margin-bottom: 1rem;">
+                <h3 style="font-size: 2rem;">{{ category.name }}</h3>
+                <p style="color: #666; font-size: 1.4rem;">{{ category.products.count }} محصول</p>
+                {# فرض شده که URL دسته‌بندی شما به این شکل است #}
+                <a href="{% url 'core:category_product' category.slug %}" class="btn">مشاهده</a>
+            </div>
+        {% endfor %}
+
+    </div>
+</section>

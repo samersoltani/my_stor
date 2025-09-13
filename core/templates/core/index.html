@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    {% comment %} {% include 'core/header.html' %} {% endcomment %}
+    
+    {% include 'core/home.html' %}
+
+    {% include 'core/service.html' %}
+
+    {% include 'core/products.html' %}
+    
+    {% include 'core/featured_product.html' %}
+
+    {% include 'core/home_reviews.html' %}
+
+     {% include 'core/footer.html' %}
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+document.querySelectorAll('.like-form').forEach(form => {
+    form.addEventListener('submit', function(event) {
+        // ۱. جلوی رفرش شدن صفحه را می‌گیریم
+        event.preventDefault();
+
+        const url = this.action;
+        const csrfToken = this.querySelector('[name=csrfmiddlewaretoken]').value;
+        const heartIcon = this.querySelector('.fa-heart');
+
+        // ۲. درخواست را در پس‌زمینه ارسال می‌کنیم
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json()) // ۳. پاسخ را به JSON تبدیل می‌کنیم
+        .then(data => {
+            // ۴. بر اساس پاسخ، ظاهر دکمه را آپدیت می‌کنیم
+            if (data.action === 'added') {
+                heartIcon.classList.add('liked'); // اگر اضافه شد، کلاس liked را برای قرمز شدن اضافه کن
+            } else if (data.action === 'removed') {
+                heartIcon.classList.remove('liked'); // اگر حذف شد، کلاس liked را بردار
+            }
+            // می‌توانید به جای alert از یک پیغام زیباتر استفاده کنید
+            // alert(data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('یک مشکلی پیش آمد.');
+        });
+    });
+});
+</script>
+{% endblock extra_js %}

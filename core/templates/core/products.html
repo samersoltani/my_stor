@@ -1,0 +1,57 @@
+{% load static %}
+<section class="products" id="products">
+    <h1 class="heading"> محصولات<span> پربازدید</span> </h1>
+
+    <div class="box-container">
+        {% for product in products %}
+            <div class="box">
+                
+                <div class="icons">
+                  <form action="{% url 'core:toggle_wishlist' product.id %}" method="post" class="like-form" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-light btn-sm">
+        <i class="fa fa-heart {% if product.id in wishlist_ids %}liked{% endif %}"></i>
+    </button>
+</form>
+</form>
+                </div>
+                
+                <a href="{% url 'core:product_detail' pk=product.pk %}" class="product-image-link">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'core/images/placeholder.png'%}{% endif %}" class="shoe" alt="{{ product.name }}">
+                </a>
+                
+                <div class="content">
+                    
+                    <a href="{% url 'core:product_detail' pk=product.pk %}">
+                        <h3>{{ product.name }}</h3>
+                    </a>
+                    
+                    <div class="price">${{ product.price|floatformat:0 }} <span>${{ product.price|add:"30"|floatformat:0 }}</span></div>
+                    
+                    <div class="stars">
+                        {% with avg_rating=product.average_rating|default:0 %}
+                            {% for i in "12345" %}
+                                {% if i|add:0 <= avg_rating|floatformat:0|add:0 %}
+                                    <i class="fas fa-star"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                            <span class="review-count">({{ product.review_count|default:0 }})</span>
+                        {% endwith %}
+                    </div>
+                    
+                    <form action="{% url 'cart:add_to_cart' product.id %}" method="post" class="add-to-cart-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">افزودن به سبد خرید</button>
+                    </form>
+                    
+                </div>
+            </div>
+            {% empty %}
+            <p style="text-align: center; font-size: 1.5rem; color: #666; grid-column: 1 / -1;">هیچ محصولی در حال حاضر موجود نیست.</p>
+        {% endfor %}
+    </div>
+</section>
+
+

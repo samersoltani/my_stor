@@ -1,0 +1,952 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+
+@font-face {
+    font-family: "IRANSansWeb";
+    src: url("../webfonts/IRANSansWeb_Medium.eot");
+    /* IE */
+    src: url("../webfonts/IRANSansWeb_Medium.eot?#iefix") format("embedded-opentype"),
+        /* IE */
+        url("../webfonts/IRANSansWeb_Medium.woff") format("woff"),
+        /* Modern Browsers */
+        url("../webfonts/IRANSansWeb_Medium.ttf") format("truetype");
+    /* Safari, Android, iOS */
+    font-weight: normal;
+}
+
+/* ==========================================================================
+   2. ROOT VARIABLES
+   ========================================================================== */
+
+:root {
+    --black: #2c2c54;
+    --orange: #ff9f1a;
+}
+
+/* ==========================================================================
+   3. GLOBAL RESET & BASE STYLES
+   ========================================================================== */
+
+* {
+    font-family: "IRANSansWeb", 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all .2s linear;
+    text-align: right;
+    direction: rtl;
+}
+
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+    overflow-x: hidden;
+    scroll-padding-top: 6rem;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-size: 1.6rem; /* Set a default font size for the body */
+}
+
+section {
+    padding: 2rem 9%;
+}
+
+/* ==========================================================================
+   4. REUSABLE COMPONENTS
+   ========================================================================== */
+
+.heading {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 4rem;
+    color: var(--black);
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.heading span {
+    text-transform: uppercase;
+    color: var(--orange);
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: .8rem 3rem;
+    border-radius: .5rem;
+    border: .2rem solid var(--black);
+    font-weight: bolder;
+    font-size: 1.7rem;
+    color: var(--black);
+    cursor: pointer;
+    background: #fff;
+    text-align: center;
+}
+
+.btn:hover {
+    background: var(--orange);
+    color: #fff;
+    border-color: var(--orange);
+}
+/* ==========================================================================
+   5. HEADER (Bootstrap Compatible)
+   ========================================================================== */
+
+/* استایل کلی نوار ناوبری که جایگزین header قدیمی می‌شود */
+.navbar {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-family: "IRANSansWeb", sans-serif;
+}
+
+/* استایل لوگو */
+.navbar .logo {
+    font-size: 2.4rem;
+    font-weight: bolder;
+    color: var(--black);
+}
+
+/* استایل لینک‌های منوی اصلی */
+.navbar .nav-link {
+    font-size: 1.7rem;
+    font-weight: 500;
+    color: var(--black);
+    padding: 0.5rem 1rem;
+}
+
+.navbar .nav-link:hover {
+    color: var(--orange);
+}
+
+/* بخش آیکون‌های کاربر */
+.navbar .user-actions {
+    gap: 1.5rem;
+}
+
+.navbar .user-actions > a,
+.navbar .user-actions .dropdown-toggle {
+    font-size: 2rem;
+    color: var(--black);
+}
+
+.navbar .user-actions > a:hover {
+    color: var(--orange);
+}
+
+/* عکس پروفایل */
+.navbar .profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #eee;
+}
+
+/* منوی کشویی پروفایل */
+.navbar .dropdown-menu {
+    font-size: 1.6rem;
+    border-radius: .5rem;
+    border: 1px solid #f0f0f0;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+
+}
+.navbar .dropdown-menu {
+    /* این مقدار را خیلی بزرگ بگذار که روی همه چیز باشد */
+    z-index: 9999; 
+}
+
+.navbar .dropdown-item {
+    text-align: right !important; /* برای اطمینان از راست‌چین بودن */
+    padding: .75rem 1.5rem;
+}
+.navbar .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: var(--orange);
+}
+
+/* عدد روی سبد خرید */
+.navbar .cart-icon {
+    position: relative;
+}
+.navbar .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+/* استایل‌های واکنش‌گرا برای موبایل */
+@media (max-width: 991px) {
+    .navbar-nav {
+        margin-top: 1rem;
+        text-align: center;
+    }
+    .navbar-nav .nav-item {
+        margin-bottom: 0.5rem;
+    }
+    .navbar .user-actions {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+        justify-content: center;
+        width: 100%;
+    }
+}
+/* ==========================================================================
+   FIX FOR STACKING CONTEXT
+   ========================================================================== */
+
+/* به هدر یک لایه چیدمان مشخص با z-index بالا می‌دهیم */
+header .fixed-top {
+    z-index: 1030; /* این عدد استاندارد بوت‌استرپ برای هدر ثابت است */
+}
+
+/* به محتوای اصلی یک لایه پایین‌تر می‌دهیم تا هرگز روی هدر را نگیرد */
+main {
+    position: relative;
+    z-index: 1;
+}
+/* ==========================================================================
+   10. Home Page Sections (Slider & Products)
+   ========================================================================== */
+
+/* --- Home Slider Section --- */
+.home-slider {
+    position: relative;
+    z-index: 0; 
+    min-height: 90vh;
+    overflow: hidden;
+    padding-top: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.home-slider .slide {
+    display: none;
+    min-height: 80vh;
+    padding: 2rem 9%;
+    align-items: center;
+    gap: 1.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+/* اضافه کردن پس‌زمینه‌ها به اسلایدها */
+.home-slider .slide-1 { background-image: url('../images/home-bg-1.jpg'); }
+.home-slider .slide-2 { background-image: url('../images/home-bg-2.jpg'); }
+.home-slider .slide-3 { background-image: url('../images/home-bg-3.jpg'); }
+/* شما می‌توانید برای اسلایدهای بیشتر، این الگو را تکرار کنید */
+
+.home-slider .slide.active {
+    display: flex;
+    flex-wrap: wrap;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0.4; }
+    to { opacity: 1; }
+}
+
+.home-slider .slide .content {
+    flex: 1 1 40rem;
+    background: transparent;
+    padding: 2rem;
+    border-radius: .5rem;
+}
+
+.home-slider .slide .content .category-name {
+    font-size: 2.2rem;
+    color: var(--orange, #ff9f1a);
+}
+
+.home-slider .slide .content h3 {
+    font-size: 4.5rem;
+    color: var(--black, #2c2c54);
+}
+
+.home-slider .slide .image-container {
+    flex: 1 1 40rem;
+    text-align: center;
+}
+
+.home-slider .shoe-image {
+    max-width: 100%;
+    transform: rotate(-25deg);
+    filter: drop-shadow(0 15px 10px rgba(0,0,0,0.2));
+    animation: shoeAnimate 2s ease-in-out infinite alternate;
+}
+
+@keyframes shoeAnimate {
+    from { transform: rotate(-25deg) translateY(0px); }
+    to { transform: rotate(-25deg) translateY(-20px); }
+}
+
+.slider-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    background: #fff;
+    color: var(--black, #2c2c54);
+    height: 5rem;
+    width: 5rem;
+    line-height: 5rem;
+    font-size: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    text-align: center;
+}
+#prev-slide { left: 3rem; }
+#next-slide { right: 3rem; }
+
+
+/* --- Products Section --- */
+.products-section .section-heading {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--black, #2c2c54);
+}
+
+.product-card {
+    border: 1px solid #eee;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.product-card .product-image {
+    height: 200px;
+    object-fit: contain; /* یا 'cover' بسته به سلیقه شما */
+    padding: 1rem;
+}
+
+.product-card .product-name {
+    font-size: 1.8rem;
+    color: var(--black, #2c2c54);
+    font-weight: 600;
+}
+
+.product-card .product-price {
+    font-size: 1.7rem;
+    color: #28a745;
+}
+
+/* ==========================================================================
+   7. SERVICE SECTION
+   ========================================================================== */
+
+.service .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    background: #f9f9f9;
+    border: .1rem solid rgba(0, 0, 0, .1);
+    border-radius: .5rem;
+    padding: 2rem;
+}
+
+.service .box-container .box {
+    text-align: center;
+    flex: 1 1 30rem;
+}
+
+.service .box-container .box i {
+    font-size: 4rem;
+    color: var(--orange);
+}
+
+.service .box-container .box h3 {
+    font-size: 2rem;
+    color: var(--black);
+    padding-top: 1rem;
+}
+
+.service .box-container .box p {
+    font-size: 1.5rem;
+    color: #666;
+    padding: 1rem 0;
+}
+
+/* ==========================================================================
+   8. PRODUCTS SECTION
+   ========================================================================== */
+
+.products .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap: 1.5rem;
+}
+
+.products .box-container .box {
+    border: .1rem solid rgba(0, 0, 0, .1);
+    border-radius: .5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: #f9f9f9;
+    padding: 1.5rem;
+}
+
+.products .box-container .box:hover {
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,0.1);
+}
+
+.products .box-container .box .icons {
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    top: .5rem;
+    left: -10rem; /* Initially hidden */
+    transition: left .3s;
+}
+
+.products .box-container .box:hover .icons {
+    left: 1rem; /* Show on hover */
+}
+
+.products .box-container .box .icons a {
+    height: 4.5rem;
+    width: 5rem;
+    line-height: 4.5rem;
+    font-size: 2rem;
+    color: var(--black);
+    border: .1rem solid var(--black);
+    border-radius: .5rem;
+    background: #fff;
+    margin-top: .5rem;
+}
+
+.products .box-container .box .icons a:hover {
+    background: var(--orange);
+    color: #fff;
+}
+
+.products .box-container .box img {
+    height: 10rem;
+    transform: rotate(-35deg);
+    filter: drop-shadow(0 .5rem 1rem rgba(0, 0, 0, .1));
+    margin: 8rem 2rem;
+    transition: transform .3s;
+}
+
+.products .box-container .box:hover img {
+    transform: rotate(-35deg) scale(1.2);
+}
+
+.products .box-container .box .content h3 {
+    color: var(--black);
+    font-size: 2.5rem;
+}
+
+.products .box-container .box .content .price {
+    color: var(--black);
+    font-size: 2.5rem;
+    font-weight: bolder;
+    padding: 1rem 0;
+}
+
+.products .box-container .box .content .price span {
+    color: var(--orange);
+    font-size: 1.5rem;
+    text-decoration: line-through;
+}
+
+.products .box-container .box .content .stars {
+    padding-bottom: 1rem;
+}
+
+.products .box-container .box .content .stars i {
+    font-size: 1.7rem;
+    color: var(--orange);
+}
+/* ==========================================================================
+   9. Featured Products Showcase (Final, Cleaned Version)
+   ========================================================================== */
+
+.featured-showcase .section-heading {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--black, #2c2c54);
+}
+
+.featured-showcase .section-heading span {
+    color: var(--orange, #ff9f1a);
+}
+
+/* استایل تصویر اصلی محصول */
+.main-image-wrapper .main-image {
+    height: 350px; /* ارتفاع تصویر را کمتر کردیم */
+    width: 100%;
+    max-width: 400px; /* حداکثر عرض را کمتر کردیم */
+    object-fit: contain; /* این تضمین می‌کند که کل تصویر بدون برش نمایش داده شود */
+}
+
+/* استایل تصاویر کوچک (thumbnails) */
+.thumbnail-wrapper .thumbnail-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain; /* تغییر اصلی: این تضمین می‌کند که کل تصویر کوچک دیده شود */
+    cursor: pointer;
+    border: 3px solid #eee; /* یک حاشیه خاکستری روشن برای مشخص شدن کادر */
+    transition: border-color 0.3s ease;
+    background-color: #fff; /* یک پس‌زمینه سفید برای تصاویر */
+}
+
+.thumbnail-wrapper .thumbnail-image:hover {
+    border-color: #ccc;
+}
+
+/* استایل برای thumbnail فعال */
+.thumbnail-wrapper .thumbnail-image.active {
+    border-color: var(--orange, #ff9f1a);
+}
+
+/* استایل بخش توضیحات محصول */
+.product-content .product-name {
+    font-size: 2.8rem;
+    color: var(--black, #2c2c54);
+    font-weight: 700;
+}
+
+.product-content .product-price {
+    color: #28a745; /* رنگ سبز برای قیمت */
+}
+
+/* ==========================================================================
+   10. REVIEW SECTION
+   ========================================================================== */
+
+/* Review Section Styles */
+.review-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.review-card.is-reply {
+    margin-right: 40px; /* ایجاد تورفتگی برای پاسخ‌ها */
+    border-left: 3px solid #e9ecef;
+    background-color: #f8f9fa;
+}
+
+.review-author {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.review-date {
+    font-size: 0.85em;
+}
+
+.review-comment {
+    margin-bottom: 0.75rem;
+}
+
+.reply-form-container {
+    display: none; /* فرم‌های پاسخ به صورت پیش‌فرض مخفی هستند */
+}
+
+
+.review-title-wrapper {
+    display: flex;
+    flex-direction: column; /* چیدن عناصر زیر هم */
+    align-items: center;   /* وسط‌چین کردن افقی */
+    justify-content: center; /* وسط‌چین کردن عمودی (اختیاری) */
+}
+
+/* ==========================================================================
+   11. NEWSLETTER SECTION
+   ========================================================================== */
+
+.newsletter {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.newsletter .content {
+    text-align: center;
+    border: .1rem solid rgba(0, 0, 0, .1);
+    border-radius: .5rem;
+    background: #f9f9f9;
+    padding: 2rem;
+}
+
+.newsletter .content h3 {
+    font-size: 2.5rem;
+    color: var(--black);
+}
+
+.newsletter .content p {
+    font-size: 1.5rem;
+    color: #666;
+    margin: 1rem auto;
+    max-width: 60rem;
+}
+
+.newsletter .content form {
+    margin: 1rem auto;
+    max-width: 50rem;
+    display: flex;
+}
+
+.newsletter .content form .box {
+    width: 100%;
+    font-size: 1.7rem;
+    text-transform: none;
+    color: #333;
+    padding: 1rem;
+    border: .2rem solid var(--black);
+    border-left: none; /* For RTL */
+    margin-top: 1rem;
+}
+
+.newsletter .content form .btn {
+    border-radius: 0;
+}
+
+/* ==========================================================================
+   12. FOOTER SECTION
+   ========================================================================== */
+
+.footer .box-container {
+    border: .1rem solid rgba(0, 0, 0, .1);
+    border-radius: .5rem;
+    background: #f9f9f9;
+    padding: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.footer .box-container .box {
+    flex: 1 1 20rem;
+}
+
+.footer .box-container .box h3 {
+    color: var(--black);
+    font-size: 2.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.footer .box-container .box a {
+    color: #666;
+    font-size: 1.5rem;
+    padding-bottom: 1.5rem;
+    display: block;
+}
+
+.footer .box-container .box a:hover {
+    color: var(--orange);
+}
+
+.footer .credit {
+    text-align: center;
+    width: 100%;
+    border-top: .1rem solid rgba(0, 0, 0, .1);
+    font-size: 1.5rem;
+    padding: 2rem 1rem 1rem 1rem;
+    margin-top: 1rem;
+    color: #999;
+}
+
+.footer .credit span {
+    color: var(--orange);
+}
+
+/* ==========================================================================
+   13. PAGE-SPECIFIC STYLES
+   ========================================================================== */
+
+/* --- Product Detail Page --- */
+.product-detail-page {
+    padding-top: 8rem;
+    padding-bottom: 5rem;
+}
+
+.product-detail-page .review-form {
+    background: #f9f9f9;
+    padding: 2rem;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    margin-bottom: 3rem;
+}
+
+/* --- Profile Edit Page --- */
+.edit-profile-page {
+    padding: 8rem 0;
+    background-color: #f4f7f6;
+}
+
+.edit-profile-page .profile-form-container .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+}
+
+/* --- Order History & Detail Page --- */
+.order-history-page, .order-detail-page {
+    padding: 8rem 0;
+    background-color: #f9f9f9;
+}
+
+.order-card, .order-detail-card {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.order-status {
+    padding: .5rem 1rem;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.status-paid { background-color: #d4edda; color: #155724; }
+.status-unpaid { background-color: #f8d7da; color: #721c24; }
+
+/* استایل تصویر محصول در صفحه جزئیات سفارش */
+.order-item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: .5rem;
+    border: 1px solid #eee;
+}
+
+/* استایل کارت هر سفارش در تاریخچه */
+.order-card .card-header {
+    font-size: 1.5rem;
+}
+
+.order-card .badge {
+    font-size: 1.2rem;
+}
+
+/* ==========================================================================
+   14. KEYFRAME ANIMATIONS
+   ========================================================================== */
+
+@keyframes slideContent {
+    0% {
+        opacity: 0;
+        transform: translateX(-10rem);
+    }
+}
+
+@keyframes shoe {
+    0% {
+        transform: rotate(0deg) scale(.5);
+    }
+}
+
+@keyframes shoeText {
+    0% {
+        opacity: 0;
+        top: -10rem;
+    }
+}
+
+/* ==========================================================================
+   15. MEDIA QUERIES (RESPONSIVE DESIGN)
+   ========================================================================== */
+
+@media (max-width: 991px) {
+    html {
+        font-size: 55%;
+    }
+    header {
+        padding: 2rem;
+    }
+    section {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #menu-bar {
+        display: block;
+    }
+
+    header .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0; /* Changed from left: -120% */
+        width: 100%;
+        background: #eee;
+        border-top: .1rem solid rgba(0, 0, 0, .1);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); /* For smooth transition */
+        transition: clip-path .2s linear;
+    }
+
+    header .navbar.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    header .navbar a {
+        font-size: 2rem;
+        background: #fff;
+        border: .1rem solid var(--black);
+        border-radius: .5rem;
+        padding: 1.5rem;
+        margin: 1.5rem;
+        display: block;
+        text-align: center;
+    }
+
+    .home .slide-container .slide .content h3 {
+        font-size: 4rem;
+    }
+
+    .home .slide-container .slide .image .text {
+        width: 60%;
+    }
+
+    .home #prev,
+    .home #next {
+        top: 85%;
+    }
+}
+
+@media (max-width: 450px) {
+    html {
+        font-size: 50%;
+    }
+    .heading {
+        font-size: 3rem;
+    }
+    .home .slide-container .slide .image {
+        padding-bottom: 6rem;
+    }
+}
+
+
+/* Wrapper for the product image in order detail page */
+.order-item-image-wrapper {
+    width: 80px;      /* عرض کادر تصویر */
+    height: 80px;     /* ارتفاع کادر تصویر */
+    flex-shrink: 0;   /* جلوگیری از کوچک شدن کادر */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eee;
+    border-radius: .5rem;
+    overflow: hidden; /* برای اینکه تصویر از کادر بیرون نزند */
+}
+
+/* The image itself inside the wrapper */
+.order-item-image-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* این باعث می‌شود کل تصویر داخل کادر جا شود */
+}
+
+/* ================================================================== */
+/* ====== استایل‌های جدید برای صفحه علاقه‌مندی‌ها (Grid Layout) ====== */
+/* ================================================================== */
+
+.wishlist-page {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+    min-height: 80vh;
+}
+
+.wishlist-title {
+    font-weight: 700;
+    color: #343a40;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* استایل کارت‌های جدید در حالت گرید */
+.product-card-wishlist {
+    border: 1px solid #e9ecef;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.product-card-wishlist:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.product-card-wishlist .product-image-link {
+    display: block;
+    padding: 1rem;
+}
+
+.product-card-wishlist .card-img-top {
+    width: 100%;
+    height: 200px; /* ارتفاع ثابت برای تمام عکس‌ها */
+    object-fit: contain; /* عکس‌ها را بدون برش نمایش می‌دهد */
+}
+
+.product-card-wishlist .card-body {
+    padding: 1rem 1.5rem;
+}
+
+.product-card-wishlist .card-title a {
+    text-decoration: none;
+    color: #212529;
+    font-weight: 600;
+    font-size: 1.7rem;
+}
+
+.product-card-wishlist .product-price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #28a745;
+}
+
+.empty-wishlist {
+    text-align: center;
+    padding: 80px 20px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+
+
+.fa-heart.liked {
+    color: red; /* یا #e74c3c یا هر کد رنگ قرمز دیگری */
+    font-weight: bold; /* برای توپر شدن قلب */
+}
+
+

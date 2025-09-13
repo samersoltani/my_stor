@@ -1,0 +1,50 @@
+{% load static %}
+
+{# این کامنت برای جلوگیری از خطای فرمت‌بندی است #}
+<div class="review-card mb-3 {% if review.parent %}is-reply{% endif %}" id="review-{{ review.id }}">
+    <div class="card-body d-flex">
+        <!-- Profile Image Section -->
+        <div class="flex-shrink-0 me-3">
+            <img src="{{ review.user.profile_image.url }}" alt="{{ review.user.username }}" class="review-avatar">
+        </div>
+
+        <!-- Review Content Section -->
+        <div class="flex-grow-1">
+            <p class="review-author">
+                <strong>{{ review.user.get_full_name|default:review.user.username }}</strong>
+                <span class="review-date text-muted">- {{ review.created_at|date:"Y/m/d" }}</span>
+            </p>
+            
+            {% if review.rating and not review.parent %}
+            <div class="stars mb-2">
+                {% for i in "12345" %}{% if i|add:0 <= review.rating %}<i class="fas fa-star text-warning"></i>{% else %}<i class="far fa-star text-muted"></i>{% endif %}{% endfor %}
+            </div>
+            {% endif %}
+            
+            <p class="review-comment">{{ review.comment|linebreaks }}</p>
+            
+            <button class="btn btn-sm btn-outline-secondary reply-btn" onclick="showReplyForm({{ review.id }})">پاسخ</button>
+
+            <!-- Reply Form (Hidden by default) -->
+            <div id="reply-form-container-{{ review.id }}" class="reply-form-container mt-3" style="display: none;">
+                <form action="{% url 'core:add_review' product.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="parent_id" value="{{ review.id }}">
+                    <div class="form-group">
+                        <textarea name="comment" cols="40" rows="3" class="form-control" required placeholder="پاسخ خود را بنویسید..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm mt-2">ارسال پاسخ</button>
+                </form>
+            </div>
+
+            <!-- Recursive Include for Replies -->
+            <div class="replies-container mt-3">
+                {% for reply in review.replies.all %}
+                    {% if reply.is_approved %}
+                        {% include 'core/_single_review.html' with review=reply %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

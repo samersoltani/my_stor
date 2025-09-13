@@ -1,0 +1,81 @@
+{% load static %}
+
+<!-- ======================= Featured Products Showcase ======================= -->
+<section class="featured-showcase py-5" id="featured-products" style="background-color: #f8f9fa;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <h1 class="section-heading mb-5">محصولات <span>برجسته</span></h1>
+            </div>
+        </div>
+
+        {% for product in featured_products %}
+        <!-- هر محصول یک ردیف جداگانه است -->
+        <div class="row featured-product-row align-items-center bg-white shadow-sm rounded p-3 p-lg-4 mb-5 mx-1">
+            
+            <!-- ستون گالری تصاویر -->
+            <div class="col-lg-7">
+                <div class="product-gallery d-flex flex-row-reverse">
+                    
+                    <!-- این ستون به خاطر flex-row-reverse در سمت راست قرار می‌گیرد -->
+                    <div class="main-image-wrapper flex-grow-1">
+                        <img src="{% if product.images.first %}{{ product.images.first.image.url }}{% else %}{% static 'images/placeholder.png' %}{% endif %}"
+                             class="main-image img-fluid rounded"
+                             alt="{{ product.name }}">
+                    </div>
+
+                    <!-- 💡 تغییر اصلی: اضافه کردن me-4 برای ایجاد فاصله 💡 -->
+                    <div class="thumbnail-wrapper d-flex flex-column gap-2 me-4">
+                        {% for image_obj in product.images.all %}
+                        <img src="{{ image_obj.image.url }}"
+                             class="thumbnail-image rounded"
+                             onclick="updateMainImage(this, '{{ image_obj.image.url }}')"
+                             alt="تصویر کوچک">
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- ستون توضیحات محصول -->
+            <div class="col-lg-5">
+                <div class="product-content text-center text-lg-end mt-4 mt-lg-0">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-description text-muted my-3">{{ product.description|truncatewords:20 }}</p>
+                    <div class="product-price h4 fw-bold mb-4">{{ product.price|floatformat:0 }} تومان</div>
+                    <form action="{% url 'cart:add_to_cart' product.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-lg px-5">افزودن به سبد خرید</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        {% empty %}
+            <div class="text-center py-5">
+                <p class="lead">محصول برجسته‌ای برای نمایش وجود ندارد.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    function updateMainImage(thumbElement, newImageUrl) {
+        let productRow = thumbElement.closest('.featured-product-row');
+        let mainImage = productRow.querySelector('.main-image');
+        mainImage.src = newImageUrl;
+
+        let allThumbs = productRow.querySelectorAll('.thumbnail-image');
+        allThumbs.forEach(thumb => thumb.classList.remove('active'));
+        thumbElement.classList.add('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.featured-product-row').forEach(row => {
+            let firstThumb = row.querySelector('.thumbnail-image');
+            if (firstThumb) {
+                firstThumb.classList.add('active');
+            }
+        });
+    });
+</script>

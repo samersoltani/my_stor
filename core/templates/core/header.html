@@ -1,0 +1,62 @@
+<!-- ======================= Header (Bootstrap Navbar) ======================= -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+            <!-- 💡💡💡 تغییر اصلی اینجا اتفاق افتاده است 💡💡💡 -->
+            <div class="container">
+                
+                <!-- Logo / Brand -->
+                <a class="navbar-brand logo" href="{% url 'core:home' %}">
+                    <strong>فروشگاه من</strong>
+                </a>
+                
+                <!-- Mobile Menu Toggle Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <!-- Navbar Links and User Actions -->
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <!-- Main Menu Links (Centered) -->
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'core:home' %}">خانه</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">محصولات</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">درباره ما</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">تماس با ما</a></li>
+                    </ul>
+                    
+                    <!-- User Actions (Wishlist, Cart, Profile) -->
+                    <div class="d-flex align-items-center user-actions">
+                        <a href="{% url 'core:wishlist_detail' %}" class="fas fa-heart nav-link" title="علاقه‌مندی‌ها"></a>
+                        
+                        <a href="{% url 'cart:cart_detail' %}" class="cart-icon nav-link" title="سبد خرید">
+                            <i class="fas fa-shopping-cart"></i>
+                            {% if cart|length > 0 %}
+                                <span class="cart-count">{{ cart|length }}</span>
+                            {% endif %}
+                        </a>
+                        
+                        {% if user.is_authenticated %}
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{ user.profile_image.url }}" class="profile-avatar" alt="آواتار">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{% url 'profile' %}">پروفایل من</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'core:order_history' %}">تاریخچه سفارش‌ها</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="dropdown-item">خروج</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm ms-2">ورود / ثبت‌نام</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>

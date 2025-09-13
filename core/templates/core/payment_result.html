@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}وضعیت پرداخت{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm text-center">
+                <div class="card-body p-5">
+                    <h1 class="h3 mb-4">وضعیت پرداخت</h1>
+                    
+                    <!-- This is a placeholder. You should add logic to check the 'status' variable -->
+                    <div class="alert alert-info" role="alert">
+                        <p class="mb-1"><strong>وضعیت بازگشتی از درگاه:</strong> {{ status }}</p>
+                        <p class="mb-0"><strong>کد پیگیری موقت:</strong> {{ authority }}</p>
+                    </div>
+
+                    <p class="mt-4">ما این صفحه را در مرحله بعد تکمیل خواهیم کرد تا پرداخت را تایید نهایی کنیم.</p>
+                    
+                    <a href="{% url 'core:home' %}" class="btn btn-primary mt-4">بازگشت به صفحه اصلی</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

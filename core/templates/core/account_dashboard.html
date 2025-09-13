@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .dashboard-page {
+        padding: 60px 0;
+        background-color: #f9f9f9;
+        min-height: 80vh;
+    }
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .dashboard-header h1 {
+        font-weight: 700;
+    }
+    .dashboard-box {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .dashboard-nav .nav-link {
+        padding: 15px;
+        color: #333;
+        border-bottom: 1px solid #eee;
+        transition: all 0.2s ease;
+    }
+    .dashboard-nav .nav-link:hover, .dashboard-nav .nav-link.active {
+        background-color: #e9ecef;
+        color: #007bff;
+    }
+    .dashboard-content {
+        padding: 20px;
+    }
+</style>
+
+<div class="dashboard-page">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>داشبورد حساب کاربری</h1>
+            <p class="lead">خوش آمدید، {{ user.get_full_name|default:user.username }}!</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="dashboard-box">
+                    <div class="nav flex-column nav-pills dashboard-nav" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" href="#">داشبورد</a>
+                        <a class="nav-link" href="{% url "profile" %}">پروفایل</a> <a class="nav-link" href="{% url "core:order_history" %}">تاریخچه سفارش‌ها</a> <a class="nav-link" href="{% url 'core:wishlist_detail' %}">لیست علاقه‌مندی‌ها</a>
+                        <a class="nav-link" href="{% url 'logout' %}">خروج</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="dashboard-box dashboard-content">
+                    <h4>خلاصه فعالیت‌ها</h4>
+                    <p>از این پنل می‌توانید به راحتی اطلاعات حساب کاربری خود را مدیریت کنید، سفارش‌های قبلی خود را مشاهده کرده و لیست علاقه‌مندی‌های خود را بررسی نمایید.</p>
+                    <hr>
+                    <a href="{% url 'core:product_list' %}" class="btn btn-primary">شروع خرید</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

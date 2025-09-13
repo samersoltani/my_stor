@@ -1,0 +1,44 @@
+{% load static %}
+<section class="footer">
+    <div class="box-container">
+
+        <div class="box">
+            <h3>شعب فروشگاه</h3>
+            <a href="#">تهران</a>
+            <a href="#">مشهد</a>
+            <a href="#">شیراز</a>
+            <a href="#">اصفهان</a>
+        </div>
+
+        <div class="box">
+            <h3>دسترسی سریع</h3>
+            <a href="{% url 'core:home' %}">خانه</a>
+            <a href="{% url 'core:product_list' %}">محصولات</a>
+            <a href="{% url 'core:home' %}#featured-products">محصولات ویژه</a>
+            <a href="{% url 'core:home' %}#reviews">نظرات</a>
+        </div>
+
+        <div class="box">
+            <h3>پیوندهای اضافی</h3>
+            <a href="{% url 'core:account_dashboard' %}">اکانت من</a>
+            <a href="{% url 'core:wishlist_detail' %}">لیست علاقه‌مندی</a>
+            <a href="{% url "core:order_history" %}">سفارش‌های من</a> <a href="{% url "core:contact" %}">تماس با ما</a> 
+            
+        </div>
+
+
+        <div class="box">
+            <h3>ما را دنبال کنید</h3>
+            <a href="#" target="_blank">فیسبوک</a>
+            <a href="#" target="_blank">توییتر</a>
+            <a href="#" target="_blank">اینستاگرام</a>
+            <a href="#" target="_blank">لینکدین</a>
+        </div>
+
+    </div>
+
+    <div class="credit" style="text-align: center; padding: 1.5rem; margin-top: 1.5rem; border-top: 1px solid #eee; font-size: 1.5rem; color: #333;">
+        ساخته شده توسط <a href="#" style="color: #e67e22;">ثامر سلطانی</a> | © 2025 تمام حقوق محفوظ است.
+    </div>
+
+</section>

@@ -1,0 +1,105 @@
+{% load static %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+<!-- ======================= Home Slider Section ======================= -->
+<section class="home-slider" id="home">
+
+    {% for product in featured_products %}
+    <!-- هر محصول یک اسلاید است. کلاس forloop.counter برای اعمال پس‌زمینه متفاوت است -->
+    <div class="slide slide-{{ forloop.counter }} {% if forloop.first %}active{% endif %}">
+        <div class="content">
+            <span class="category-name">{{ product.category.name|default:'محصول جدید' }}</span>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description|truncatechars:150 }}</p>
+            <a href="{{ product.get_absolute_url }}" class="btn btn-primary btn-lg">مشاهده جزئیات</a>
+        </div>
+        <div class="image-container">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/placeholder.png' %}{% endif %}" class="shoe-image" alt="{{ product.name }}">
+        </div>
+    </div>
+    {% empty %}
+    <!-- اسلاید پیش‌فرض در صورت نبودن محصول -->
+    <div class="slide slide-1 active">
+        <div class="content">
+            <span class="category-name">فروشگاه نایک</span>
+            <h3>به فروشگاه ما خوش آمدید</h3>
+            <p>به زودی محصولات جدید و شگفت‌انگیزی به فروشگاه اضافه خواهد شد. منتظر ما باشید!</p>
+            <a href="#" class="btn btn-primary btn-lg">مشاهده محصولات</a>
+        </div>
+        <div class="image-container">
+            <img src="{% static 'images/placeholder.png' %}" class="shoe-image" alt="Welcome">
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- دکمه‌های کنترل اسلایدر -->
+    <div id="prev-slide" class="slider-control fas fa-chevron-left"></div>
+    <div id="next-slide" class="slider-control fas fa-chevron-right"></div>
+
+</section>
+
+<!-- ======================= Products Section ======================= -->
+<section class="products-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">      
+        </div>
+        <div class="row">
+            {% for product in all_products %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card product-card h-100 shadow-sm">
+                    <a href="{{ product.get_absolute_url }}">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/placeholder.png' %}{% endif %}" class="card-img-top product-image" alt="{{ product.name }}">
+                    </a>
+                    <div class="card-body text-center">
+                        <h5 class="card-title product-name">{{ product.name }}</h5>
+                        <p class="card-text product-price fw-bold">{{ product.price|floatformat:0 }} تومان</p>
+                        <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary mt-2">مشاهده محصول</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const slides = document.querySelectorAll('.home-slider .slide');
+    const nextBtn = document.getElementById('next-slide');
+    const prevBtn = document.getElementById('prev-slide');
+    let currentSlide = 0;
+
+    if (slides.length > 0) {
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        if (nextBtn && prevBtn && slides.length > 1) {
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+        }
+    }
+});
+</script>
+{% endblock %}

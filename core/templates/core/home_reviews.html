@@ -1,0 +1,36 @@
+{% load static %}
+
+<section class="py-5 bg-light" id="reviews">
+    <div class="container">
+        
+        <div class="row">
+             <div class="col-12 mb-4 review-title-wrapper">
+                <h2 class="display-5">نظرات مشتریان ما</h2>
+                <p class="lead text-muted">نگاهی به آنچه دیگران در مورد محصولات ما می‌گویند</p>
+            </div>
+        </div>
+
+        <!-- ردیف مربوط به کارت‌های نظرات -->
+        <div class="row justify-content-center">
+            {% for review in latest_reviews %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm text-center">
+                        <div class="card-body">
+                            <img src="{{ review.user.profile_image.url }}" alt="{{ review.user.username }}" class="rounded-circle mb-3" width="80" height="80" style="object-fit: cover;">
+                            <h5 class="card-title">{{ review.user.get_full_name|default:review.user.username }}</h5>
+                            <p class="card-text text-muted">"{{ review.comment|truncatewords:20 }}"</p>
+                            <div class="stars text-warning mb-3">
+                                {% for i in "12345" %}{% if i|add:0 <= review.rating %}<i class="fas fa-star"></i>{% else %}<i class="far fa-star"></i>{% endif %}{% endfor %}
+                            </div>
+                            <a href="{{ review.product.get_absolute_url }}#review-{{ review.id }}" class="btn btn-outline-primary btn-sm">مشاهده نظر برای محصول "{{ review.product.name }}"</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>هنوز نظری ثبت نشده است.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

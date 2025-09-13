@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="padding: 50px 0;">
+    <h1 class="text-center">لیست محصولات</h1>
+    
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-3 mb-3">
+                    <div class="card">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.price|floatformat:0 }} تومان</p>
+                            <a href="{{ product.get_absolute_url }}" class="btn btn-primary">مشاهده جزئیات</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">هیچ محصولی برای نمایش وجود ندارد.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
+
+
+

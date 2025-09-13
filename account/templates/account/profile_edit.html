@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ویرایش پروفایل{% endblock %}
+
+{% block content %}
+<div class="edit-profile-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+
+                <form method="post" enctype="multipart/form-data" class="profile-form-container">
+                    {% csrf_token %}
+
+                    <div class="card edit-card">
+                        <div class="card-header bg-white text-center py-4">
+                            <h2 class="card-title mb-0">ویرایش پروفایل</h2>
+                        </div>
+                        <div class="card-body p-4 p-md-5">
+
+                            <div class="profile-image-section text-center mb-5">
+                                <label for="{{ form.profile_image.id_for_label }}" class="form-label">
+                                    {% if user.profile_image %}
+                                        <img src="{{ user.profile_image.url }}" class="current-profile-img" alt="تصویر پروفایل">
+                                    {% else %}
+                                        <img src="{% static 'core/images/default-avatar.png' %}" class="current-profile-img" alt="تصویر پروفایل">
+                                    {% endif %}
+                                    <span class="edit-icon"><i class="fas fa-camera"></i></span>
+                                </label>
+                                {{ form.profile_image }}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.first_name.id_for_label }}" class="form-label">نام</label>
+                                    {{ form.first_name }}
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.last_name.id_for_label }}" class="form-label">نام خانوادگی</label>
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">آدرس ایمیل</label>
+                                {{ form.email }}
+                            </div>
+
+                        </div>
+                        <div class="card-footer bg-white d-grid gap-2 p-4">
+                            <button type="submit" class="btn btn-primary btn-lg">ذخیره تغییرات</button>
+                            <a href="#" class="btn btn-light mt-2">انصراف</a> {#  این لینک باید به صفحه پروفایل اشاره کند #}
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
