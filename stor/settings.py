@@ -15,7 +15,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key-here')
 DEBUG = True
 # os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = [
+    'web-production-8f4b7.up.railway.app',
+    '127.0.0.1', # برای تست در کامپیوتر خودتان
+]
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
