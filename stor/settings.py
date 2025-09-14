@@ -19,7 +19,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # ما می‌توانیم از آن برای تشخیص محیط پروداکشن استفاده کنیم.
 DEBUG = 'RAILWAY_ENVIRONMENT' not in os.environ
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    'web-production-8f4b7.up.railway.app',
+    '127.0.0.1', # این را برای تست در کامپیوتر خودتان نگه دارید
+]
 
 # آدرس دامنه‌ای که Railway به شما می‌دهد را به صورت خودکار اضافه می‌کند.
 RAILWAY_STATIC_URL = os.environ.get('RAILWAY_STATIC_URL')
