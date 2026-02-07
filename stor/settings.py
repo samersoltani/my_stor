@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'core',
     'account',
     'cart',
+    'zarinpal',
 ]
 
 MIDDLEWARE = [
@@ -156,6 +157,9 @@ ZARINPAL_CONFIG = {
 }
 
 # Email Settings
+ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'admin@example.com')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@example.com')
+
 if not DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = os.environ.get('EMAIL_HOST')
@@ -165,5 +169,3 @@ if not DEBUG:
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@example.com')
