@@ -36,4 +36,4 @@
 
 ## 🚀 دمو زنده
 
-🌐 **لینک دمو:** [https://djangoshop.onrender.com](https://djangoshop.onrender.com)
+🌐 **لینک دمو:** https://my-django-store-onrender-com.onrender.com/
