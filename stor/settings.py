@@ -171,6 +171,7 @@ if not DEBUG:
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 else:
+<<<<<<< HEAD
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Cloudinary Settings for Media Files
