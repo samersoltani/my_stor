@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>فروشگاه آنلاین - ورود/ثبت نام</title>
+    <title>فروشگاه آنلاین - خروج</title>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"/>
@@ -54,38 +54,15 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
-              <form class="auth-form p-4" method="POST" action="{% url 'login' %}">
-                {% csrf_token %}
+              <div class="auth-form p-4 text-center">
+                <h3 class="mb-4">شما با موفقیت خارج شدید</h3>
+                <p class="mb-4">تا به زودی برای بازدید دوباره منتظریم!</p>
                 
-                <h3 class="text-center mb-4">ورود به حساب کاربری</h3>
-                
-                {% if form.errors %}
-                <div class="alert alert-danger">
-                  نام کاربری یا رمز عبور اشتباه است
+                <div class="d-flex gap-2 justify-content-center">
+                  <a href="{% url 'core:home' %}" class="btn btn-primary">بازگشت به صفحه اصلی</a>
+                  <a href="{% url 'login' %}" class="btn btn-secondary">ورود دوباره</a>
                 </div>
-                {% endif %}
-                
-                <!-- Username/Email input -->
-                <div class="form-outline mb-4">
-                  <input type="text" name="username" class="form-control" required />
-                  <label class="form-label">نام کاربری یا ایمیل</label>
-                </div>
-
-                <!-- Password input -->
-                <div class="form-outline mb-4">
-                  <input type="password" name="password" class="form-control" required />
-                  <label class="form-label">رمز عبور</label>
-                </div>
-
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">ورود</button>
-                
-                <div class="text-center">
-                  <p>حساب کاربری ندارید؟ <a href="{% url 'register' %}">ثبت نام کنید</a></p>
-                  <p>یا</p>
-                  <a href="" class="text-muted">رمز عبور خود را فراموش کرده‌اید؟</a>
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
