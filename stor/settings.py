@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'cloudinary_storage',
+    'cloudinary',
+    
     'core',
     'account',
     'cart',
@@ -153,7 +156,7 @@ LOGOUT_REDIRECT_URL = 'core:home'
 ZARINPAL_CONFIG = {
     'SANDBOX': os.environ.get('SANDBOX', 'True') == 'True',
     'MERCHANT_ID': os.environ.get('MERCHANT_ID', 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'),
-    'CALLBACK_URL': os.environ.get('ZARINPAL_CALLBACK') # URL کامل را در Railway تنظیم کنید
+    'CALLBACK_URL': os.environ.get('ZARINPAL_CALLBACK') # URL کامل را در Render تنظیم کنید
 }
 
 # Email Settings
@@ -168,4 +171,13 @@ if not DEBUG:
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 else:
+<<<<<<< HEAD
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Cloudinary Settings for Media Files
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', 'dxyoyscx9'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', '438447854216728'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', 'NGFJ4ettLAZP629k3akex3mncR8'),
+}

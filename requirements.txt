@@ -5,3 +5,5 @@ dj-database-url
 whitenoise
 requests
 Pillow
+cloudinary
+django-cloudinary-storage
