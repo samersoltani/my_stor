@@ -21,7 +21,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, related_name='product',on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='products',on_delete=models.CASCADE)
     name = models.CharField(max_length=200 ,db_index=True)
     slug = models.SlugField(max_length=200 ,db_index=True)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
@@ -146,9 +146,9 @@ class Order(models.Model):
     def __str__(self):
         return f'سفارش{self.id}'
 
-  # داخل کلاس Order
-def get_total_cost(self):
-    return sum(item.get_cost() for item in self.items.all())
+    def get_total_cost(self):
+        return sum(item.get_cost() for item in self.items.all())
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order , on_delete=models.CASCADE ,related_name='items')

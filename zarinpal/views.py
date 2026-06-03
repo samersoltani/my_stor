@@ -25,7 +25,7 @@ def zarinpal_send_request(request, amount, description):
     CallbackURL = request.build_absolute_uri('/payment/verify/')
 
     data = {
-        "merchant_id": settings.MERCHANT,
+        "merchant_id": settings.ZARINPAL_CONFIG['MERCHANT_ID'],
         "amount": amount,
         "description": description,
         "callback_url": CallbackURL,
@@ -57,7 +57,7 @@ def zarinpal_send_request(request, amount, description):
 def zarinpal_verify(amount, authority):
     # این تابع حالا مبلغ را به عنوان ورودی می‌گیرد
     data = {
-        "merchant_id": settings.MERCHANT,
+        "merchant_id": settings.ZARINPAL_CONFIG['MERCHANT_ID'],
         "amount": amount,
         "authority": authority,
     }

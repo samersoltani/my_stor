@@ -22,13 +22,24 @@ class Cart:
         افزودن محصول به سبد خرید یا به‌روزرسانی تعداد آن
         """
         product_id = str(product.id)
+        
+        # بررسی موجودی انبار
+        if quantity > product.stock:
+            raise ValueError(f"موجودی محصول {product.name} کافی نیست. موجود: {product.stock}, درخواست: {quantity}")
+        
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0, 'price': str(product.price)}
         
         if override_quantity:
+            # بررسی موجودی برای override
+            if quantity > product.stock:
+                raise ValueError(f"موجودی محصول {product.name} کافی نیست. موجود: {product.stock}, درخواست: {quantity}")
             self.cart[product_id]['quantity'] = quantity
         else:
-            self.cart[product_id]['quantity'] += quantity
+            new_quantity = self.cart[product_id]['quantity'] + quantity
+            if new_quantity > product.stock:
+                raise ValueError(f"موجودی محصول {product.name} کافی نیست. موجود: {product.stock}, درخواست: {new_quantity}")
+            self.cart[product_id]['quantity'] = new_quantity
         self.save()
 
     def save(self):

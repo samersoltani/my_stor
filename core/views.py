@@ -84,22 +84,6 @@ class AboutView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # --- شروع کد موقت برای ساخت ادمین ---
-        User = get_user_model()
-        try:
-            # نام کاربری که با آن ثبت‌نام کردید را اینجا بنویسید
-            user = User.objects.get(username='Samer_Admin')
-            user.is_staff = True
-            user.is_superuser = True
-            user.save()
-            print(f"موفقیت: کاربر {user.username} به ادمین تبدیل شد.")
-            context['promotion_message'] = f"کاربر {user.username} با موفقیت به ادمین تبدیل شد."
-        except ObjectDoesNotExist:
-            print("خطا: کاربر پیدا نشد.")
-            context['promotion_message'] = "کاربر مورد نظر برای ارتقا پیدا نشد."
-        # --- پایان کد موقت ---
-        
         return context
 
     """
@@ -188,7 +172,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         product = get_object_or_404(Product, id=self.kwargs['product_id'])
         return product.get_absolute_url()
     
-def form_invalid(self, form):
+    def form_invalid(self, form):
         product = get_object_or_404(Product, id=self.kwargs['product_id'])
         # اضافه کردن پیام خطا برای کاربر
         messages.error(self.request, 'اطلاعات وارد شده صحیح نیست. لطفاً تمام فیلدها را بررسی کنید.')
@@ -470,6 +454,10 @@ def payment_verify(request):
             # order.ref_id = response_data['ref_id']
             order.save()
             
+            # پاک کردن سبد خرید بعد از پرداخت موفق
+            cart = Cart(request)
+            cart.clear()
+            
             # پاک کردن ID سفارش از سشن
             if 'order_id_to_verify' in request.session:
                 del request.session['order_id_to_verify']
@@ -508,8 +496,8 @@ def checkout(request):
     order.total_paid = total_cost
     order.save()
     
-    # خالی کردن سبد خرید بعد از ثبت سفارش
-    cart.clear()
+    # توجه: سبد خرید را اینجا پاک نمی‌کنیم تا اگر پرداخت ناموفق بود دوباره سفارش بتوان داد
+    # سبد در payment_verify پاک می‌شود
 
     # مرحله ۲: هدایت کاربر به درگاه پرداخت برای سفارش جدید
     # ما کاربر را به همان ویوی قبلی (send_to_payment_gateway) می‌فرستیم
